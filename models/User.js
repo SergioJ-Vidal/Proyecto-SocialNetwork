@@ -8,7 +8,9 @@ email: String,
 
 password: String,
 
-age: Number
+age: Number,
+
+tokens: []
 
 }, { timestamps: true });
 
