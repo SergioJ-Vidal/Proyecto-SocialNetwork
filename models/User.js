@@ -10,6 +10,8 @@ password: String,
 
 age: Number,
 
+role: String,
+
 tokens: []
 
 }, { timestamps: true });

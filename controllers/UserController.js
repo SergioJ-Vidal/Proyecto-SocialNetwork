@@ -13,7 +13,7 @@ const UserController = {
 
             const user = await User.create({ ...req.body, password: password });
 
-            res.status(201).send({ message: "Usuario registrado con exito", user });
+            res.status(201).send({ message: "Usuario registrado con exito", user, role: "user" });
 
         } catch (error) {
 
