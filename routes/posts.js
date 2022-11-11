@@ -4,7 +4,9 @@ const router = express.Router()
 
 const PostController = require('../controllers/PostController');
 
-router.post('/create',PostController.create)
+const { authentication, isAdmin } = require("../middleware/authentication");
+
+router.post('/create',authentication,PostController.create)
 router.get('/find',PostController.getAll)
 router.get('/find/id/:_id',PostController.getById)
 router.get('/find/title/:title',PostController.getPostsByTitle)

@@ -35,14 +35,14 @@ const UserController = {
 
             })
 
-            if(!user){
-               return res.status(400).send("Usuario o contraseña incorrectos")
+            if (!user) {
+                return res.status(400).send("Usuario o contraseña incorrectos")
             }
 
-            const isMatch = bcrypt.compare(req.body.password,user.password)
+            const isMatch = bcrypt.compare(req.body.password, user.password)
 
-            if(!isMatch){
-               return res.status(400).send("Usuario o contraseña incorrectos")
+            if (!isMatch) {
+                return res.status(400).send("Usuario o contraseña incorrectos")
             }
 
             const token = jwt.sign({ _id: user._id }, jwt_secret);
@@ -65,7 +65,31 @@ const UserController = {
 
     },
 
+    async logout(req, res) {
 
+        try {
+
+            await User.findByIdAndUpdate(req.user._id, {
+
+                $pull: { tokens: req.headers.authorization },
+
+            });
+
+            res.send({ message: "Desconectado con éxito" });
+
+        } catch (error) {
+
+            console.error(error);
+
+            res.status(500).send({
+
+                message: "Hubo un problema al intentar conectar al usuario",
+
+            });
+
+        }
+
+    },
 
 };
 
