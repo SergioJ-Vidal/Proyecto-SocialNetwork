@@ -10,5 +10,6 @@ router.post('/create',UserController.register)
 router.post('/login',UserController.login)
 router.delete('/logout',authentication, UserController.logout)
 router.get('/findId',authentication, UserController.getById)
+router.get('/findbyId/:_id', UserController.findbyId)
 
 module.exports = router;

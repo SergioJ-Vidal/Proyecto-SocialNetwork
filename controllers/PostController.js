@@ -6,7 +6,7 @@ const PostController = {
 
         try {
 
-            const post = await Post.create(req.body)
+            const post = await Post.create({...req.body, userId: req.user._id})
 
             res.status(201).send(post)
 

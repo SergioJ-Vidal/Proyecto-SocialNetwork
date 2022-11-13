@@ -109,6 +109,24 @@ const UserController = {
 
     },
 
+    async findbyId(req, res) {
+
+        try {
+
+            const user = await User.findById(req.params._id)
+
+            res.send(user)
+
+        } catch (error) {
+
+            console.error(error);
+
+            res.status(500).send({ message: 'Ha habido un problema al obtener el Post' })
+
+        }
+
+    },
+
 };
 
 module.exports = UserController;
