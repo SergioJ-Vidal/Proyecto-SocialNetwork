@@ -16,18 +16,12 @@ const CommentSchema = new mongoose.Schema({
 
     },
 
-    post: {
+    postId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Post'
      },
 
 }, { timestamps: true });
-
-PostSchema.index({
-
-    title: "text",
-
-});
 
 const Comment = mongoose.model('Comment', CommentSchema);
 

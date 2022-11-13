@@ -1,7 +1,5 @@
 const Comment = require("../models/Comment");
-const bcrypt = require("bcryptjs");
-const jwt = require('jsonwebtoken');
-const { jwt_secret } = require('../config/keys.js')
+const Post = require("../models/Post")
 
 const CommentController = {
 
@@ -9,9 +7,15 @@ const CommentController = {
 
         try {
 
-            const comment = await Post.findById(req.params._id)
-
-            res.send(comment)
+            const comment = await Comment.create({...req.body, userId: req.user._id, postId: req.params._id})
+            
+            const postRelated = await Post.findByIdAndUpdate(req.params._id);
+            
+            postRelated.comments.push(comment);
+            
+            await postRelated.save()
+            
+            res.send(postRelated)
 
         } catch (error) {
 
