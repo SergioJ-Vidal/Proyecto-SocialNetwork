@@ -91,6 +91,24 @@ const UserController = {
 
     },
 
+    async getById(req, res) {
+
+        try {
+
+            const user = await User.findById(req.user._id)
+
+            res.send(user)
+
+        } catch (error) {
+
+            console.error(error);
+
+            res.status(500).send({ message: 'Ha habido un problema al obtener el Usuario' })
+
+        }
+
+    },
+
 };
 
 module.exports = UserController;
