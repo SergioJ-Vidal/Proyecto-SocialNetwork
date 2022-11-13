@@ -1,4 +1,5 @@
 const Post = require("../models/Post");
+const User = require("../models/User")
 
 const PostController = {
 
@@ -7,6 +8,12 @@ const PostController = {
         try {
 
             const post = await Post.create({...req.body, userId: req.user._id})
+
+            const userRelated = await User.findByIdAndUpdate(req.user._id);
+
+            userRelated.posts.push(post);
+            
+            await userRelated.save()
 
             res.status(201).send(post)
 

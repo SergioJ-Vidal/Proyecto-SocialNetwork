@@ -12,6 +12,8 @@ age: Number,
 
 role: String,
 
+posts: Array,
+
 tokens: []
 
 }, { timestamps: true });
