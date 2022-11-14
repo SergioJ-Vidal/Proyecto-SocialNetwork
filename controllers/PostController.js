@@ -32,6 +32,14 @@ const PostController = {
         try {
 
             const posts = await Post.find()
+                .populate({
+                    path: "comments",
+
+                    populate: {
+
+                        path: "userId",
+                    },
+                })
                 .limit(req.query.limit)
                 .skip((req.query.page - 1) * req.query.limit)
             res.send(posts)

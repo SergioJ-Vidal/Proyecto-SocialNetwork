@@ -93,11 +93,31 @@ const UserController = {
 
     },
 
+    async getAll(req, res) {
+
+        try {
+
+            const users = await User.find()
+                .limit(req.query.limit)
+                .skip((req.query.page - 1) * req.query.limit)
+            res.send(users)
+
+        } catch (error) {
+
+            console.error(error);
+
+            res.status(500).send({ message: 'Ha habido un problema al obtener los Posts' })
+
+        }
+
+    },
+
     async getById(req, res) {
 
         try {
 
             const user = await User.findById(req.user._id)
+            .populate({ path: "posts" })
 
             res.send(user)
 
