@@ -6,12 +6,12 @@ const CommentSchema = new mongoose.Schema({
 
     title:  {
         type: String,
-        required: true
+        required: [true, "Por favor rellena el título"]
       },
 
     body:  {
         type: String,
-        required: true
+        required: [true, "Por favor rellena el comentario"]
       },
 
     userId: {

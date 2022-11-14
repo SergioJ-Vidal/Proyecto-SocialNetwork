@@ -13,9 +13,9 @@ const UserController = {
 
             const password = await bcrypt.hash(req.body.password, 10)
 
-            const user = await User.create({ ...req.body, password: password });
+            const user = await User.create({ ...req.body, password: password, role: "user" });
 
-            res.status(201).send({ message: "Usuario registrado con exito", user, role: "user" });
+            res.status(201).send({ message: "Usuario registrado con exito", user});
 
         } catch (error) {
 

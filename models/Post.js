@@ -6,12 +6,12 @@ const PostSchema = new mongoose.Schema({
 
     title:  {
         type: String,
-        required: true
+        required: [true, "Por favor rellena el título"]
       },
 
     body:  {
         type: String,
-        required: true
+        required: [true, "Por favor rellena el post"]
       },
 
     userId: {
@@ -23,6 +23,8 @@ const PostSchema = new mongoose.Schema({
         type: mongoose.SchemaTypes.ObjectId,
         ref: 'Comment'
     }],
+
+    likes: [{type: ObjectId}]
 
 }, { timestamps: true });
 

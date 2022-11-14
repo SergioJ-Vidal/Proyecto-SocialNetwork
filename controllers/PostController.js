@@ -130,21 +130,45 @@ const PostController = {
 
         try {
 
-            const like = await Like.create()
-
             const postRelated = await Post.findByIdAndUpdate(req.params._id);
 
-            await postRelated.likes.push(like);
+            postRelated.likes.push(req.user._id);
 
             await postRelated.save()
 
-            res.send(postRelated.likes.count())
+            res.send(postRelated)  //postRelated.likes.count()
 
         } catch (error) {
 
             console.error(error);
 
             res.status(500).send({ message: 'Ha habido un problema al publicar el comentario' })
+
+        }
+
+    },
+
+    async deleteLike(req, res) {
+
+        try {
+
+            await Post.findByIdAndUpdate(req.params._id, {
+
+                $pull: { likes: req.user._id },
+
+            });
+
+            res.send({ message: "Like eliminado" });
+
+        } catch (error) {
+
+            console.error(error);
+
+            res.status(500).send({
+
+                message: "Hubo un problema al intentar eliminar el like",
+
+            });
 
         }
 
