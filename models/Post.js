@@ -4,20 +4,23 @@ const ObjectId = mongoose.SchemaTypes.ObjectId;
 
 const PostSchema = new mongoose.Schema({
 
-    title: String,
+    title:  {
+        type: String,
+        required: true
+      },
 
-    body: String,
+    body:  {
+        type: String,
+        required: true
+      },
 
     userId: {
-
         type: ObjectId,
-
         ref: 'User'
-
     },
 
     comments: [{
-        type: mongoose.Schema.Types.ObjectId,
+        type: mongoose.SchemaTypes.ObjectId,
         ref: 'Comment'
     }],
 

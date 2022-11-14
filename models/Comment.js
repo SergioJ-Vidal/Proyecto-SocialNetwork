@@ -4,24 +4,34 @@ const ObjectId = mongoose.SchemaTypes.ObjectId;
 
 const CommentSchema = new mongoose.Schema({
 
-    title: String,
+    title:  {
+        type: String,
+        required: true
+      },
 
-    body: String,
+    body:  {
+        type: String,
+        required: true
+      },
 
     userId: {
-
         type: ObjectId,
-
         ref: 'User'
-
     },
 
     postId: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: mongoose.SchemaTypes.ObjectId,
         ref: 'Post'
      },
 
 }, { timestamps: true });
+
+
+CommentSchema.index({
+
+    title: "text",
+
+});
 
 const Comment = mongoose.model('Comment', CommentSchema);
 

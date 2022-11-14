@@ -2,21 +2,51 @@ const mongoose = require('mongoose');
 
 const UserSchema = new mongoose.Schema({
 
-name: String,
+  name: {
+    type: String,
+    required: true
+  },
 
-email: String,
+  email: {
+    type: String,
+    required: true
+  },
 
-password: String,
+  password: {
+    type: String,
+    required: true
+  },
 
-age: Number,
+  age: {
+    type: Number,
+    required: true
+  },
 
-role: String,
+  role: {
+    type: String,
+    required: true
+  },
 
-posts: Array,
+  posts: [{
+    type: mongoose.SchemaTypes.ObjectId,
+    ref: 'Post'
+  }],
 
-tokens: []
+  tokens: []
 
 }, { timestamps: true });
+
+UserSchema.methods.toJSON = function () {
+
+  const user = this._doc;
+
+  delete user.tokens;
+
+  delete user.password;
+
+  return user;
+
+}
 
 const User = mongoose.model('User', UserSchema);
 

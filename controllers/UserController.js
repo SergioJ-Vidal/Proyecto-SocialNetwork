@@ -111,6 +111,32 @@ const UserController = {
 
     },
 
+    async getByName(req, res) {
+
+        try {
+
+            const users = await User.find({
+
+                $text: {
+
+                    $search: req.params.name,
+
+                },
+
+            });
+
+            res.send(users);
+
+        } catch (error) {
+
+            console.log(error);
+
+            res.status(500).send({ message: 'Ha habido un problema al obtener el Usuario' })
+
+        }
+
+    },
+
     async findbyId(req, res) {
 
         try {

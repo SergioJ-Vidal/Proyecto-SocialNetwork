@@ -7,12 +7,12 @@ const PostController = {
 
         try {
 
-            const post = await Post.create({...req.body, userId: req.user._id})
+            const post = await Post.create({ ...req.body, userId: req.user._id })
 
             const userRelated = await User.findByIdAndUpdate(req.user._id);
 
             userRelated.posts.push(post);
-            
+
             await userRelated.save()
 
             res.status(201).send(post)
@@ -32,7 +32,8 @@ const PostController = {
         try {
 
             const posts = await Post.find()
-
+                .limit(req.query.limit)
+                .skip((req.query.page - 1) * req.query.limit)
             res.send(posts)
 
         } catch (error) {
@@ -120,6 +121,30 @@ const PostController = {
             console.error(error)
 
             res.status(500).send({ message: 'Ha habido un problema al eliminar el Post' })
+
+        }
+
+    },
+
+    async giveLike(req, res) {
+
+        try {
+
+            const like = await Like.create()
+
+            const postRelated = await Post.findByIdAndUpdate(req.params._id);
+
+            await postRelated.likes.push(like);
+
+            await postRelated.save()
+
+            res.send(postRelated.likes.count())
+
+        } catch (error) {
+
+            console.error(error);
+
+            res.status(500).send({ message: 'Ha habido un problema al publicar el comentario' })
 
         }
 
