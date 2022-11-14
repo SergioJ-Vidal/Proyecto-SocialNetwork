@@ -4,32 +4,34 @@ const ObjectId = mongoose.SchemaTypes.ObjectId;
 
 const CommentSchema = new mongoose.Schema({
 
-    title:  {
-        type: String,
-        required: [true, "Por favor rellena el título"]
-      },
+  title: {
+    type: String,
+    required: [true, "Por favor rellena el título"]
+  },
 
-    body:  {
-        type: String,
-        required: [true, "Por favor rellena el comentario"]
-      },
+  body: {
+    type: String,
+    required: [true, "Por favor rellena el comentario"]
+  },
 
-    userId: {
-        type: ObjectId,
-        ref: 'User'
-    },
+  userId: {
+    type: ObjectId,
+    ref: 'User'
+  },
 
-    postId: {
-        type: mongoose.SchemaTypes.ObjectId,
-        ref: 'Post'
-     },
+  postId: {
+    type: mongoose.SchemaTypes.ObjectId,
+    ref: 'Post'
+  },
+
+  likes: [{ type: ObjectId }]
 
 }, { timestamps: true });
 
 
 CommentSchema.index({
 
-    title: "text",
+  title: "text",
 
 });
 
