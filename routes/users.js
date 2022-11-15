@@ -13,5 +13,7 @@ router.get('/find', UserController.getAll)
 router.get('/findId',authentication, UserController.getById)
 router.get('/findbyId/:_id', UserController.findbyId)
 router.get('/findByName/:_name', UserController.getByName)
+router.put('/follow/:_id', authentication, UserController.giveFollow)
+router.delete('/unfollow/:_id', authentication, UserController.deleteFollow)
 
 module.exports = router;

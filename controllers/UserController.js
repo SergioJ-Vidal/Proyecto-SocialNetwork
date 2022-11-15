@@ -15,7 +15,7 @@ const UserController = {
 
             const user = await User.create({ ...req.body, password: password, role: "user" });
 
-            res.status(201).send({ message: "Usuario registrado con exito", user});
+            res.status(201).send({ message: "Usuario registrado con exito", user });
 
         } catch (error) {
 
@@ -117,7 +117,7 @@ const UserController = {
         try {
 
             const user = await User.findById(req.user._id)
-            .populate({ path: "posts" })
+                .populate({ path: "posts" })
 
             res.send(user)
 
@@ -170,6 +170,66 @@ const UserController = {
             console.error(error);
 
             res.status(500).send({ message: 'Ha habido un problema al obtener el Post' })
+
+        }
+
+    },
+
+    async giveFollow(req, res) {
+
+        try {
+
+            const userRelated = await User.findByIdAndUpdate(req.params._id);
+
+            userRelated.followers.push(req.user._id);
+
+            await userRelated.save()
+
+            const myUser= await User.findByIdAndUpdate(req.user._id);
+
+            myUser.following.push(req.params._id)
+
+            await myUser.save()
+
+            res.send({ message: 'Has dado follow' })  //postRelated.likes.count()
+
+        } catch (error) {
+
+            console.error(error);
+
+            res.status(500).send({ message: 'Ha habido un problema al dar follow' })
+
+        }
+
+    },
+
+    async deleteFollow(req, res) {
+
+        try {
+
+            await User.findByIdAndUpdate(req.params._id, {
+
+                $pull: { followers: req.user._id },
+
+            });
+
+            await User.findByIdAndUpdate(req.user._id, {
+
+                $pull: { following: req.params._id },
+
+            });
+
+            res.send({ message: "Follow eliminado" });
+
+        } catch (error) {
+
+            console.error(error);
+
+            res.status(500).send({
+
+                message: "Hubo un problema al intentar eliminar el follow",
+
+            });
 
         }
 
