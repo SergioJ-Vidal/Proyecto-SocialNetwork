@@ -1,9 +1,9 @@
 const User = require("../models/User");
-const Post = require("../models/Post")
 
 const bcrypt = require("bcryptjs");
 const jwt = require('jsonwebtoken');
-const { jwt_secret } = require('../config/keys.js')
+
+require("dotenv").config();
 
 const UserController = {
 
@@ -47,7 +47,7 @@ const UserController = {
                 return res.status(400).send("Usuario o contraseña incorrectos")
             }
 
-            const token = jwt.sign({ _id: user._id }, jwt_secret);
+            const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
 
             if (user.tokens.length > 4) user.tokens.shift();
 

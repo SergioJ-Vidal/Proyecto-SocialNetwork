@@ -2,7 +2,7 @@ const User = require('../models/User');
 const Post = require('../models/Post');
 const jwt = require('jsonwebtoken');
 
-const { jwt_secret } = require('../config/keys.js')
+require("dotenv").config();
 
 const authentication = async (req, res, next) => {
 
@@ -10,7 +10,7 @@ const authentication = async (req, res, next) => {
 
         const token = req.headers.authorization;
 
-        const payload = jwt.verify(token, jwt_secret);
+        const payload = jwt.verify(token, process.env.JWT_SECRET);
 
         const user = await User.findOne({ _id: payload._id, tokens: token });
 
