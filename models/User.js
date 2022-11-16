@@ -29,6 +29,10 @@ const UserSchema = new mongoose.Schema({
     required: true
   },
 
+  confirmed: {
+    type: Boolean,
+  },
+
   posts: [{
     type: mongoose.SchemaTypes.ObjectId,
     ref: 'Post'

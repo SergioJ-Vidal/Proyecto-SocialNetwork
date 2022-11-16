@@ -7,6 +7,7 @@ const UserController = require('../controllers/UserController');
 const { authentication, isAdmin } = require("../middleware/authentication");
 
 router.post('/create',UserController.register)
+router.get('/confirm/:emailToken',UserController.confirm)
 router.post('/login',UserController.login)
 router.delete('/logout',authentication, UserController.logout)
 router.get('/find', UserController.getAll)
