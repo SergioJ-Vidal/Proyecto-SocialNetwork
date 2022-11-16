@@ -179,7 +179,7 @@ const UserController = {
 
         try {
 
-            const userRelated = await User.findByIdAndUpdate(req.params._id);
+            const userRelated = await User.findByIdAndUpdate(req.params._id, { new: true });
 
             userRelated.followers.push(req.user._id);
 
@@ -211,7 +211,7 @@ const UserController = {
 
                 $pull: { followers: req.user._id },
 
-            });
+            },{ new: true });
 
             await User.findByIdAndUpdate(req.user._id, {
 

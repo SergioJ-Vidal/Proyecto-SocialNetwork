@@ -138,7 +138,7 @@ const PostController = {
 
         try {
 
-            const postRelated = await Post.findByIdAndUpdate(req.params._id);
+            const postRelated = await Post.findByIdAndUpdate(req.params._id, { new: true });
 
             postRelated.likes.push(req.user._id);
 
@@ -164,7 +164,7 @@ const PostController = {
 
                 $pull: { likes: req.user._id },
 
-            });
+            }, { new: true });
 
             res.send({ message: "Like eliminado" });
 
@@ -185,3 +185,4 @@ const PostController = {
 }
 
 module.exports = PostController;
+

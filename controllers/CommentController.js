@@ -85,7 +85,7 @@ const CommentController = {
 
         try {
 
-            const commentRelated = await Comment.findByIdAndUpdate(req.params._id);
+            const commentRelated = await Comment.findByIdAndUpdate(req.params._id,{ new: true });
 
             commentRelated.likes.push(req.user._id);
 
@@ -111,7 +111,7 @@ const CommentController = {
 
                 $pull: { likes: req.user._id },
 
-            });
+            },{ new: true });
 
             res.send({ message: "Like eliminado" });
 
