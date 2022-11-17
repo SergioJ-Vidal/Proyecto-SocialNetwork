@@ -144,7 +144,7 @@ const PostController = {
 
             await postRelated.save()
 
-            res.send(postRelated)  //postRelated.likes.count()
+            res.send(postRelated) 
 
         } catch (error) {
 
