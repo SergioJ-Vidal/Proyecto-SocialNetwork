@@ -56,14 +56,7 @@ const UserController = {
 
             const payload = jwt.verify(token, process.env.JWT_SECRET)
 
-            await User.updateOne(
-                { email: payload.email },
-
-                {
-                    confirmed: true,
-                }
-
-            )
+            await User.updateOne({ email: payload.email }, {confirmed: true,})
 
             res.status(201).send("Usuario confirmado con éxito");
 
@@ -79,11 +72,7 @@ const UserController = {
 
         try {
 
-            const user = await User.findOne({
-
-                email: req.body.email,
-
-            })
+            const user = await User.findOne({  email: req.body.email, })
 
             if (!user) {
                 return res.status(400).send("Usuario o contraseña incorrectos")
