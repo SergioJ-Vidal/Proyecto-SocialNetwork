@@ -16,9 +16,11 @@ const UserController = {
 
             const user = await User.create({ ...req.body, password: password, role: "user", confirmed: false });
 
-            const emailToken = jwt.sign({ email: req.body.email }, jwt_secret, { expiresIn: '48h' })
+            const emailToken = jwt.sign({ email: req.body.email }, process.env.JWT_SECRET, { expiresIn: '48h' })
 
             const url = 'http://localhost:8080/users/confirm/' + emailToken
+
+            console.log(url)
 
             await transporter.sendMail({
 
@@ -52,17 +54,16 @@ const UserController = {
 
             const token = req.params.emailToken
 
-            const payload = jwt.verify(token, jwt_secret)
+            const payload = jwt.verify(token, process.env.JWT_SECRET)
 
-            await User.updateOne({ confirmed: true }, {
+            await User.updateOne(
+                { email: payload.email },
 
-                where: {
-
-                    email: payload.email
-
+                {
+                    confirmed: true,
                 }
 
-            })
+            )
 
             res.status(201).send("Usuario confirmado con éxito");
 
