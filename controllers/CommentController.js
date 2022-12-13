@@ -4,6 +4,7 @@ const Post = require("../models/Post")
 const CommentController = {
 
     async createComment(req, res) {
+        if (req.file) req.body.image = req.file.filename
 
         try {
 

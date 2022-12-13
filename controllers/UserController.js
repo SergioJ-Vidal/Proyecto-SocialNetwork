@@ -9,6 +9,7 @@ require("dotenv").config();
 const UserController = {
 
     async register(req, res) {
+        if (req.file) req.body.image = req.file.filename
 
         try {
 
@@ -56,7 +57,7 @@ const UserController = {
 
             const payload = jwt.verify(token, process.env.JWT_SECRET)
 
-            await User.updateOne({ email: payload.email }, {confirmed: true,})
+            await User.updateOne({ email: payload.email }, { confirmed: true, })
 
             res.status(201).send("Usuario confirmado con éxito");
 
@@ -72,7 +73,7 @@ const UserController = {
 
         try {
 
-            const user = await User.findOne({  email: req.body.email, })
+            const user = await User.findOne({ email: req.body.email, })
 
             if (!user) {
                 return res.status(400).send("Usuario o contraseña incorrectos")
@@ -278,6 +279,30 @@ const UserController = {
 
     },
 
-};
+    async favPosts(req, res) {
+
+        try {
+
+            const userRelated = await User.findByIdAndUpdate(req.user._id);
+
+            userRelated.postsFollowed.push(req.params._id);
+
+            await userRelated.save()
+
+        } catch (error) {
+
+            console.error(error);
+
+            res.status(500).send({
+
+                message: "Hubo un problema al intentar seguir el post.",
+
+            });
+
+        }
+
+    },
+
+}
 
 module.exports = UserController;

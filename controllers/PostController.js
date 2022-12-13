@@ -4,6 +4,7 @@ const User = require("../models/User")
 const PostController = {
 
     async create(req, res) {
+        if (req.file) req.body.image = req.file.filename
 
         try {
 
@@ -34,11 +35,17 @@ const PostController = {
             const posts = await Post.find()
                 .populate({
                     path: "comments",
+                    select: {title: 1, body: 1},
 
                     populate: {
 
                         path: "userId",
+                        select: {name: 1, role: 1}
                     },
+                })
+                .populate({
+                    path: "userId",
+                    select: {name: 1, role: 1},
                 })
                 .limit(req.query.limit)
                 .skip((req.query.page - 1) * req.query.limit)

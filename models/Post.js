@@ -4,15 +4,19 @@ const ObjectId = mongoose.SchemaTypes.ObjectId;
 
 const PostSchema = new mongoose.Schema({
 
-    title:  {
+    title: {
         type: String,
         required: [true, "Por favor rellena el título"]
-      },
+    },
 
-    body:  {
+    body: {
         type: String,
         required: [true, "Por favor rellena el post"]
-      },
+    },
+
+    image: {
+        type: String,
+    },
 
     userId: {
         type: ObjectId,
@@ -24,7 +28,7 @@ const PostSchema = new mongoose.Schema({
         ref: 'Comment'
     }],
 
-    likes: [{type: ObjectId}]
+    likes: [{ type: ObjectId }]
 
 }, { timestamps: true });
 

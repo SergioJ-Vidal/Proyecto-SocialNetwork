@@ -19,6 +19,10 @@ const UserSchema = new mongoose.Schema({
     required: [true, "Por favor rellena tu contraseña"]
   },
 
+  image: {
+    type: String,
+  },
+
   age: {
     type: Number,
     required: [true, "Por favor rellena tu edad"]
@@ -46,6 +50,11 @@ const UserSchema = new mongoose.Schema({
   following: [{
     type: mongoose.SchemaTypes.ObjectId,
     ref: 'User'
+  }],
+
+  postsFollowed: [{
+    type: mongoose.SchemaTypes.ObjectId,
+    ref: 'Post'
   }],
 
   tokens: []

@@ -14,6 +14,10 @@ const CommentSchema = new mongoose.Schema({
     required: [true, "Por favor rellena el comentario"]
   },
 
+  image: {
+    type: String,
+  },
+
   userId: {
     type: ObjectId,
     ref: 'User'

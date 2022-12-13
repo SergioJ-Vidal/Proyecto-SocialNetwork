@@ -1,12 +1,10 @@
 const express = require('express');
-
 const router = express.Router()
-
 const CommentController = require('../controllers/CommentController');
-
+const { uploadCommentsImages } = require("../middleware/multer");
 const { authentication, isAdmin, isAuthorComment } = require("../middleware/authentication");
 
-router.post('/create/:_id/comment', authentication, CommentController.createComment)
+router.post('/create/:_id/comment', authentication, uploadCommentsImages.single('image'), CommentController.createComment)
 router.put('/update/:_id', authentication, isAuthorComment, CommentController.update)
 router.get('/find/id/:_id', CommentController.getById)
 router.put('/givelike/:_id',authentication, CommentController.giveLike)
