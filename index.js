@@ -7,13 +7,15 @@ const swaggerUI = require('swagger-ui-express')
 const docs = require('./docs/index')
 
 const app = express();
+const cors = require ("cors")
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3002;
 
 const { typeError } = require("./middleware/errors");
 const { dbConnection } = require("./config/config")
 
 app.use(express.json())
+app.use(cors())
 
 app.use('/api-docs', swaggerUI.serve,swaggerUI.setup(docs))
 
