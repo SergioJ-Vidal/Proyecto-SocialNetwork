@@ -6,29 +6,33 @@ const handleValidationError = (err, res) => {
 
         let chain = "";
 
-        for (let i = 0; i < errors.length; i++) {
+        // for (let i = 0; i < errors.length; i++) {
 
-            chain += errors[i] + " || ";
+        //     chain += errors[i] + " || ";
 
+        // }
+
+        for (const element of errors) {
+            
+            chain += element + " || "
+            
         }
 
         const string = chain.slice(0, -4);
 
-        res.status(400).send({ messages: string });
+        return res.status(400).send({ messages: string });
 
     } else {
 
-        res.status(400).send({ message: errors });
+        return res.status(400).send({ message: errors });
 
     }
-
 }
+
 
 const typeError = (err, req, res, next) => {
 
-    const errOrigin = err.origin
-
-    if (err.name === 'ValidationError') return err = handleValidationError(err, res);
+    if (err.name === 'ValidationError') return handleValidationError(err, res);
 
     else if (err.code === 11000) {
 
