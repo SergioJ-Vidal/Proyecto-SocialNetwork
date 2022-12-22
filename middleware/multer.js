@@ -4,6 +4,9 @@ const mimetypes = ['image/png', 'image/jpg', 'image/jpeg', 'image/gif', 'image/j
 
 const generateUploadImageMulter = path => Multer({
     storage: Multer.diskStorage({
+        limits: {
+            fileSize: 8000000
+        },
         destination: (req, file, cb) => cb(null, path),
         filename: (req, file, cb) => cb(null, Date.now() + '-' + file.originalname)
     }),
