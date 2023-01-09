@@ -66,6 +66,22 @@ const PostController = {
         try {
 
             const post = await Post.findById(req.params._id)
+            .populate({
+                path: "userId",
+                select: {name: 1, role: 1},
+            }
+            
+            )
+            .populate({
+                path: "comments",
+                select: {title: 1, body: 1},
+
+                populate: {
+
+                    path: "userId",
+                    select: {name: 1, role: 1}
+                },
+            })
 
             res.send(post)
 
@@ -108,9 +124,8 @@ const PostController = {
     async update(req, res) {
 
         try {
-
-            const post = await Post.findByIdAndUpdate(req.params._id, req.body, { new: true })
-
+            console.log(req.body)
+            const post = await Post.findByIdAndUpdate(req.params._id, req.body, {new:true})
             res.send({ message: "Post actualizado", post });
 
         } catch (error) {
@@ -145,7 +160,21 @@ const PostController = {
 
         try {
 
-            const postRelated = await Post.findByIdAndUpdate(req.params._id, { new: true });
+            const postRelated = await Post.findByIdAndUpdate(req.params._id, { new: true })
+            .populate({
+                path: "comments",
+                select: {title: 1, body: 1},
+
+                populate: {
+
+                    path: "userId",
+                    select: {name: 1, role: 1}
+                },
+            })
+            .populate({
+                path: "userId",
+                select: {name: 1, role: 1},
+            })
 
             postRelated.likes.push(req.user._id);
 

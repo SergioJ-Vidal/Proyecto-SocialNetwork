@@ -8,14 +8,14 @@ const CommentController = {
 
         try {
 
-            const comment = await Comment.create({...req.body, userId: req.user._id, postId: req.params._id})
-            
+            const comment = await Comment.create({ ...req.body, userId: req.user._id, postId: req.params._id })
+
             const postRelated = await Post.findByIdAndUpdate(req.params._id);
-            
+
             postRelated.comments.push(comment);
-            
+
             await postRelated.save()
-            
+
             res.send(postRelated)
 
         } catch (error) {
@@ -41,6 +41,40 @@ const CommentController = {
             console.error(error);
 
             res.status(500).send({ message: 'Ha habido un problema al actualizar el comentario' })
+
+        }
+
+    },
+
+    async getByPost(req, res) {
+
+        try {
+
+            const post = await Post.findById(req.params._id)
+            .populate({
+                path: "userId",
+                select: {name: 1, role: 1},
+            }
+            
+            )
+            .populate({
+                path: "comments",
+                select: {title: 1, body: 1},
+
+                populate: {
+
+                    path: "userId",
+                    select: {name: 1, role: 1}
+                },
+            })
+
+            res.send(post)
+
+        } catch (error) {
+
+            console.error(error);
+
+            res.status(500).send({ message: 'Ha habido un problema al obtener el Post' })
 
         }
 
@@ -86,7 +120,7 @@ const CommentController = {
 
         try {
 
-            const commentRelated = await Comment.findByIdAndUpdate(req.params._id,{ new: true });
+            const commentRelated = await Comment.findByIdAndUpdate(req.params._id, { new: true });
 
             commentRelated.likes.push(req.user._id);
 
@@ -112,7 +146,7 @@ const CommentController = {
 
                 $pull: { likes: req.user._id },
 
-            },{ new: true });
+            }, { new: true });
 
             res.send({ message: "Like eliminado" });
 

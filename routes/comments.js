@@ -7,6 +7,7 @@ const { authentication, isAdmin, isAuthorComment } = require("../middleware/auth
 router.post('/create/:_id/comment', authentication, uploadCommentImages.single('image'), CommentController.createComment)
 router.put('/update/:_id', authentication, isAuthorComment, CommentController.update)
 router.get('/find/id/:_id', CommentController.getById)
+router.get('/findcomments/id/:_id', CommentController.getByPost)
 router.put('/givelike/:_id',authentication, CommentController.giveLike)
 router.delete('/deletelike/:_id',authentication, CommentController.deleteLike)
 router.delete('/delete/id/:_id',authentication, isAuthorComment, CommentController.delete)

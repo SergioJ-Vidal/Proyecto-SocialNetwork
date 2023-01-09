@@ -1,6 +1,5 @@
 const User = require("../models/User");
 const transporter = require("../config/nodemailer");
-
 const bcrypt = require("bcryptjs");
 const jwt = require('jsonwebtoken');
 
@@ -74,6 +73,7 @@ const UserController = {
         try {
 
             const user = await User.findOne({ email: req.body.email, })
+            .populate({ path: "posts" })
 
             if (!user) {
                 return res.status(400).send("Usuario o contraseña incorrectos")
@@ -99,7 +99,7 @@ const UserController = {
 
             await user.save();
 
-            res.send({ message: 'Bienvenid@ ' + user.name, token });
+            res.send({ message: 'Bienvenid@ ' + user.name, token, user });
 
         } catch (error) {
 
@@ -206,6 +206,7 @@ const UserController = {
         try {
 
             const user = await User.findById(req.params._id)
+            .populate({ path: "posts" })
 
             res.send(user)
 

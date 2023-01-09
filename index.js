@@ -32,6 +32,7 @@ app.use((req, res, next) => {
 
 app.use('/api-docs', swaggerUI.serve,swaggerUI.setup(docs))
 
+app.use('/images' ,express.static("./images"));
 app.use('/comments', require('./routes/comments'));
 app.use('/posts', require('./routes/posts'));
 app.use('/users', require('./routes/users'));
